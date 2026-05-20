@@ -112,6 +112,113 @@
   overflow: hidden;
 }
 
+/* ── Table Toolbar (search) ────────────────────────────────── */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafafa;
+}
+
+.table-search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 380px;
+}
+
+.table-search-icon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.table-search {
+  width: 100%;
+  padding: 0.45rem 2rem 0.45rem 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.table-search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-bg);
+}
+
+/* override global input styles for the search box */
+.table-search-wrap input[type="search"] {
+  padding: 0.45rem 2rem 0.45rem 2rem;
+}
+
+.table-search-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.25rem;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.table-search-clear:hover {
+  color: var(--color-text);
+}
+
+.table-search-count {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ── Sortable column headers ───────────────────────────────── */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.th-sortable:hover {
+  background-color: #2a2a3e;
+}
+
+.th-narrow {
+  width: 3rem;
+}
+
+.sort-icon {
+  display: inline-block;
+  margin-left: 0.3rem;
+  font-size: 0.75rem;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.sort-icon--idle {
+  opacity: 0.35;
+}
+
+.sort-icon--active {
+  opacity: 1;
+  color: #c084fc;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -279,4 +386,107 @@
 
 .dashboard-card li {
   margin-bottom: 0.35rem;
+}
+
+/* ── FAQ Page ──────────────────────────────────────────────── */
+.page-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.page-header-sub {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  width: fit-content;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+.faq-question-cell {
+  font-weight: 500;
+  max-width: 280px;
+}
+
+.faq-preview-cell {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  max-width: 320px;
+}
+
+/* ── FAQ Detail Modal ──────────────────────────────────────── */
+.faq-detail-question,
+.faq-detail-answer {
+  margin-bottom: 1.25rem;
+}
+
+.faq-detail-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.faq-detail-question p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.faq-detail-meta {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ── CKEditor answer body (rendered HTML) ──────────────────── */
+.faq-answer-body {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  background: #fafafa;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.faq-answer-body p { margin: 0 0 0.75rem; }
+.faq-answer-body p:last-child { margin-bottom: 0; }
+.faq-answer-body ul,
+.faq-answer-body ol { padding-left: 1.5rem; margin: 0 0 0.75rem; }
+.faq-answer-body li { margin-bottom: 0.25rem; }
+.faq-answer-body strong { font-weight: 600; }
+.faq-answer-body a { color: var(--color-primary); }
+.faq-answer-body h2,
+.faq-answer-body h3 { margin: 0.75rem 0 0.4rem; font-weight: 600; }
+
+/* ── CKEditor wrapper ──────────────────────────────────────── */
+.ck-wrapper .ck-editor__editable {
+  min-height: 180px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.ck-wrapper--disabled .ck-editor__editable {
+  background: #f5f5f5;
+  cursor: not-allowed;
 }

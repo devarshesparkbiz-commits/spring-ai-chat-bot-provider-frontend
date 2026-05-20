@@ -7,6 +7,8 @@ export interface User {
   email: string;
   mobileNumber: string;
   active: boolean;
+  userRole?: Role;
+  // kept for backward compat — same as userRole
   role?: Role;
   companyId?: number;
   companyName?: string;
@@ -30,6 +32,8 @@ export interface CompanyUserFormData {
   password: string;
   mobileNumber: string;
   companyId: number | '';
+  /** COMPANY_ADMIN = company admin, COMPANY_USER = regular user */
+  userRole: 'COMPANY_ADMIN' | 'COMPANY_USER';
   active: boolean;
 }
 

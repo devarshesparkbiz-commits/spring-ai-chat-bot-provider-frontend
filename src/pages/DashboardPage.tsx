@@ -29,6 +29,10 @@ const ROLE_CONTENT: Record<string, { heading: string; cards: DashboardCard[] }> 
     heading: 'Company Admin Dashboard',
     cards: [
       {
+        title: 'FAQs',
+        items: ['Add, update, and manage FAQs for your company'],
+      },
+      {
         title: 'Company Users',
         items: ['Create, read, and update company users'],
       },

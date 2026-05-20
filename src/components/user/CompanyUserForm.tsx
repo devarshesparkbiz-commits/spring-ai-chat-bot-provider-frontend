@@ -18,6 +18,7 @@ const EMPTY: CompanyUserFormData = {
   password: '',
   mobileNumber: '',
   companyId: '',
+  userRole: 'COMPANY_USER',
   active: true,
 };
 
@@ -37,7 +38,6 @@ const CompanyUserForm: React.FC<CompanyUserFormProps> = ({
   const isEdit = !!initialData;
   const isLocked = lockedCompanyId != null;
 
-  // Load company dropdown only when not locked to a specific company
   useEffect(() => {
     if (isLocked) return;
     setLoadingCompanies(true);
@@ -51,7 +51,6 @@ const CompanyUserForm: React.FC<CompanyUserFormProps> = ({
       .finally(() => setLoadingCompanies(false));
   }, [isLocked]);
 
-  // Sync form when switching between add / edit, or when lockedCompanyId changes
   useEffect(() => {
     if (initialData) {
       setForm({
@@ -60,8 +59,10 @@ const CompanyUserForm: React.FC<CompanyUserFormProps> = ({
         email: initialData.email,
         password: '',
         mobileNumber: initialData.mobileNumber,
-        // Prefer the locked company over whatever is stored on the user
         companyId: lockedCompanyId ?? initialData.companyId ?? '',
+        userRole: (initialData.userRole ?? initialData.role) === 'COMPANY_ADMIN'
+          ? 'COMPANY_ADMIN'
+          : 'COMPANY_USER',
         active: initialData.active,
       });
     } else {
@@ -178,7 +179,21 @@ const CompanyUserForm: React.FC<CompanyUserFormProps> = ({
         />
       </div>
 
-      {/* Company field: hidden when locked, dropdown when super admin */}
+      {/* User Type — always visible */}
+      <div className="form-group">
+        <label htmlFor="cu-userRole">User Type</label>
+        <select
+          id="cu-userRole"
+          value={form.userRole}
+          onChange={e => set('userRole', e.target.value as CompanyUserFormData['userRole'])}
+          required
+        >
+          <option value="COMPANY_USER">User</option>
+          <option value="COMPANY_ADMIN">Admin</option>
+        </select>
+      </div>
+
+      {/* Company — hidden when locked, dropdown for super admin */}
       {isLocked ? (
         <input type="hidden" value={form.companyId} />
       ) : (

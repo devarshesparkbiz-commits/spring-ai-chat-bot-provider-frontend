@@ -23,5 +23,9 @@ export const companyService = {
 
   delete: (id: number) => api.delete<void>(`/company/${id}`),
 
+  softDelete: (id: number) => api.delete<{ message: string }>(`/company/${id}`),
+
   getDropdown: () => api.get<DropdownItem[]>('/company/dropdown'),
+
+  getById: (id: number) => api.get<Company>(`/company/${id}`),
 };

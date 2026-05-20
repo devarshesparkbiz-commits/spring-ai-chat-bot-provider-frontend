@@ -16,6 +16,7 @@ const NAV_LINKS: Record<string, { label: string; to: string }[]> = {
   ],
   COMPANY_ADMIN: [
     { label: 'Dashboard', to: '/dashboard' },
+    { label: 'FAQs', to: '/faqs' },
     { label: 'Company Users', to: '/company-users' },
   ],
   COMPANY_USER: [{ label: 'Dashboard', to: '/dashboard' }],

@@ -40,6 +40,11 @@ export function useCompanies() {
     fetchPage(pageNumber);
   };
 
+  const softDeleteCompany = async (id: number) => {
+    await companyService.softDelete(id);
+    fetchPage(pageNumber);
+  };
+
   return {
     companies,
     pageNumber,
@@ -50,5 +55,6 @@ export function useCompanies() {
     setPageNumber,
     createCompany,
     updateCompany,
+    softDeleteCompany,
   };
 }

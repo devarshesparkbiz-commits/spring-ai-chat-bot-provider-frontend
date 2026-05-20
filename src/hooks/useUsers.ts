@@ -40,6 +40,11 @@ export function useAdminUsers() {
     fetchPage(pageNumber);
   };
 
+  const softDeleteUser = async (id: number) => {
+    await userService.softDeleteAdminUser(id);
+    fetchPage(pageNumber);
+  };
+
   return {
     users,
     pageNumber,
@@ -50,6 +55,7 @@ export function useAdminUsers() {
     setPageNumber,
     createUser,
     updateUser,
+    softDeleteUser,
   };
 }
 
@@ -89,6 +95,11 @@ export function useCompanyUsers(scopedCompanyId?: number | null) {
     fetchPage(pageNumber);
   };
 
+  const softDeleteUser = async (id: number) => {
+    await userService.softDeleteCompanyUser(id);
+    fetchPage(pageNumber);
+  };
+
   return {
     users,
     pageNumber,
@@ -99,5 +110,6 @@ export function useCompanyUsers(scopedCompanyId?: number | null) {
     setPageNumber,
     createUser,
     updateUser,
+    softDeleteUser,
   };
 }

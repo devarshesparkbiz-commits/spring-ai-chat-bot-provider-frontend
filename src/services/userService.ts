@@ -19,6 +19,9 @@ export const userService = {
   updateAdminUser: (id: number, data: AdminUserFormData) =>
     api.put<CommonResponse>(`/admin-user/${id}`, data),
 
+  softDeleteAdminUser: (id: number) =>
+    api.delete<CommonResponse>(`/admin-user/${id}`),
+
   getAdminUserDropdown: () =>
     api.get<DropdownItem[]>('/admin-user/dropdown'),
 
@@ -34,6 +37,9 @@ export const userService = {
 
   updateCompanyUser: (id: number, data: CompanyUserFormData) =>
     api.put<CommonResponse>(`/company-user/${id}`, data),
+
+  softDeleteCompanyUser: (id: number) =>
+    api.delete<CommonResponse>(`/company-user/${id}`),
 
   getCompanyUserDropdown: () =>
     api.get<DropdownItem[]>('/company-user/dropdown'),

@@ -77,6 +77,7 @@ const CompanyUsersPage: React.FC = () => {
           totalElements={totalElements}
           onPageChange={setPageNumber}
           showCompany={userRole === 'SUPER_ADMIN'}
+          showRole
         />
       )}
 

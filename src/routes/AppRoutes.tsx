@@ -7,6 +7,7 @@ import DashboardPage from '../pages/DashboardPage';
 import CompaniesPage from '../pages/CompaniesPage';
 import AdminUsersPage from '../pages/AdminUsersPage';
 import CompanyUsersPage from '../pages/CompanyUsersPage';
+import FaqPage from '../pages/FaqPage';
 
 const AppRoutes: React.FC = () => (
   <Router>
@@ -28,6 +29,25 @@ const AppRoutes: React.FC = () => (
           element={
             <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
               <CompaniesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/companies/:companyId/faqs"
+          element={
+            <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
+              <FaqPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* COMPANY_ADMIN: FAQs scoped to their own company via JWT */}
+        <Route
+          path="/faqs"
+          element={
+            <ProtectedRoute allowedRoles={['COMPANY_ADMIN']}>
+              <FaqPage />
             </ProtectedRoute>
           }
         />
