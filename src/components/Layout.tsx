@@ -17,9 +17,14 @@ const NAV_LINKS: Record<string, { label: string; to: string }[]> = {
   COMPANY_ADMIN: [
     { label: 'Dashboard', to: '/dashboard' },
     { label: 'FAQs', to: '/faqs' },
+    { label: 'Chatbot', to: '/chatbot' },
+    { label: 'API Keys', to: '/api-keys' },
     { label: 'Company Users', to: '/company-users' },
   ],
-  COMPANY_USER: [{ label: 'Dashboard', to: '/dashboard' }],
+  COMPANY_USER: [
+    { label: 'Dashboard', to: '/dashboard' },
+    { label: 'Chat', to: '/chat' },
+  ],
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
