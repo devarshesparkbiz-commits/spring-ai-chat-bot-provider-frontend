@@ -1,7 +1,7 @@
 /* ── Chat layout ─────────────────────────────────────────────────────────── */
 .chat-layout {
   display: flex;
-  height: calc(100vh - 64px); /* subtract navbar height */
+  height: 100%;         /* fills main-content--chat which is flex: 1 */
   overflow: hidden;
 }
 
@@ -440,7 +440,8 @@
 .btn-secondary:hover { background: #e5e7eb; }
 
 .btn-link { background: none; border: none; color: #5865f2; cursor: pointer; font-size: 0.85rem; }
-.btn-danger { color: #dc2626; }
+/* Only link-style danger buttons get red text — full btn-danger buttons keep white text */
+.btn-link.btn-danger { color: #dc2626; }
 
 /* ── Data table ──────────────────────────────────────────────────────────── */
 .data-table {

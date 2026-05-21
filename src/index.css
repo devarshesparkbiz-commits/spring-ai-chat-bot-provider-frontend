@@ -4,11 +4,13 @@
   --color-primary-dark: #8b2fb8;
   --color-primary-bg: rgba(170, 59, 255, 0.08);
 
-  --color-text: #333;
-  --color-text-muted: #666;
-  --color-bg: #f5f5f5;
+  --color-text: #1a1a2e;
+  --color-text-muted: #555;
+  --color-bg: #f5f5f7;
   --color-surface: #ffffff;
-  --color-border: #e0e0e0;
+  --color-border: #e0e0e8;
+  --color-navbar: #1e1e2e;
+  --color-navbar-text: rgba(255,255,255,0.85);
 
   --color-success: #22c55e;
   --color-danger: #ef4444;
@@ -22,14 +24,36 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.18);
 
-  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Dark theme ────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-primary: #c084fc;
+  --color-primary-dark: #a855f7;
+  --color-primary-bg: rgba(192, 132, 252, 0.1);
+
+  --color-text: #e8e8f0;
+  --color-text-muted: #9999bb;
+  --color-bg: #0f0f1a;
+  --color-surface: #1a1a2e;
+  --color-border: #2d2d4e;
+  --color-navbar: #0d0d1a;
+  --color-navbar-text: rgba(255,255,255,0.85);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
@@ -39,14 +63,27 @@
   box-sizing: border-box;
 }
 
+/* Hide scrollbars globally — elements still scroll, bar is just invisible */
+* {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / Edge legacy */
+}
+
+*::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Edge */
+}
+
 body {
   margin: 0;
+  overflow: hidden;             /* prevent body-level scroll; layout handles it */
 }
 
 h1, h2, h3, h4 {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: var(--font-heading);
   color: var(--color-text);
+  letter-spacing: -0.02em;
 }
 
 p {
@@ -54,9 +91,10 @@ p {
 }
 
 #root {
-  min-height: 100vh;
+  height: 100vh;                /* fixed height — no page growth */
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* ── Buttons ───────────────────────────────────────────────── */
@@ -301,4 +339,84 @@ textarea:focus {
   font-size: inherit;
   text-decoration: underline;
   font-family: inherit;
+}
+
+/* ── Theme toggle button ───────────────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.4);
+  transform: rotate(20deg);
+}
+
+/* ── Dark mode: admin panel surfaces ───────────────────────── */
+[data-theme="dark"] .main-content {
+  background-color: var(--color-bg);
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: #2d2d4e;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .btn-secondary:hover:not(:disabled) {
+  background-color: #3d3d5e;
+}
+
+[data-theme="dark"] .table-toolbar {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .data-table tbody tr:hover td {
+  background-color: rgba(255,255,255,0.04);
+}
+
+[data-theme="dark"] .modal,
+[data-theme="dark"] .modal-box {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .dashboard-welcome,
+[data-theme="dark"] .dashboard-card {
+  background-color: var(--color-surface);
+}
+
+[data-theme="dark"] .faq-answer-body {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .table-wrapper {
+  background-color: var(--color-surface);
+}
+
+[data-theme="dark"] .error-alert {
+  background-color: rgba(239, 68, 68, 0.12);
 }

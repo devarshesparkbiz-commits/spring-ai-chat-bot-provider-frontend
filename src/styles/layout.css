@@ -10,21 +10,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e1e2e;
-  color: #fff;
+  background-color: var(--color-navbar, #1e1e2e);
+  color: var(--color-navbar-text, rgba(255,255,255,0.85));
   padding: 0 2rem;
   height: 60px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
   z-index: 100;
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: background-color 0.3s;
 }
 
 .navbar-brand h1 {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #fff;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 .navbar-menu {
@@ -80,15 +83,27 @@
   background-color: var(--color-primary-dark);
 }
 
+/* ── Layout ────────────────────────────────────────────────── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;        /* fixed — no page-level scroll */
+  overflow: hidden;
+}
+
 /* ── Main Content ──────────────────────────────────────────── */
 .main-content {
   flex: 1;
-  padding: 2rem 2.5rem;
+  padding: 2rem;
   background-color: var(--color-bg);
-  max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
-  align-self: stretch;
+  overflow-y: auto;
+}
+
+/* Chat page overrides — no padding, fills full remaining height */
+.main-content.main-content--chat {
+  padding: 0;
+  overflow: hidden;
 }
 
 /* ── Page Header ───────────────────────────────────────────── */

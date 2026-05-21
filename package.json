@@ -12,9 +12,11 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^41.4.2",
     "@ckeditor/ckeditor5-react": "^11.1.2",
+    "@types/three": "^0.176.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^6.30.3"
+    "react-router-dom": "^6.30.3",
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

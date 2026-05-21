@@ -141,7 +141,7 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout fullHeight>
       <div className="chat-layout">
         {/* ── Sidebar: session list ─────────────────────────────────────── */}
         <aside className="chat-sidebar">
