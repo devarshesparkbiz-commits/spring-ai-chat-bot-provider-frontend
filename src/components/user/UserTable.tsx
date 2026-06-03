@@ -5,6 +5,7 @@ import Button from '../common/Button';
 import Pagination from '../common/Pagination';
 import TableToolbar from '../common/TableToolbar';
 import SortIcon from '../common/SortIcon';
+import UserAvatar from '../common/UserAvatar';
 import { useTableControls } from '../../hooks/useTableControls';
 
 interface UserTableProps {
@@ -124,7 +125,17 @@ const UserTable: React.FC<UserTableProps> = ({
               return (
                 <tr key={user.userId}>
                   <td>{user.userId}</td>
-                  <td>{user.firstName} {user.lastName}</td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      <UserAvatar
+                        firstName={user.firstName}
+                        lastName={user.lastName}
+                        profileImageUrl={user.profileImageUrl}
+                        size={32}
+                      />
+                      <span>{user.firstName} {user.lastName}</span>
+                    </div>
+                  </td>
                   <td>{user.email}</td>
                   <td>{user.mobileNumber}</td>
                   {showCompany && <td>{user.companyName ?? '—'}</td>}

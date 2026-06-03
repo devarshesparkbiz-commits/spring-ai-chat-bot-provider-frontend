@@ -12,6 +12,8 @@ export interface User {
   role?: Role;
   companyId?: number;
   companyName?: string;
+  /** Full URL to the user's profile image — null/undefined if not set */
+  profileImageUrl?: string;
 }
 
 // Matches backend AdminUserRequest

@@ -5,6 +5,7 @@ import KnowledgeScene from '../components/landing/KnowledgeScene';
 import CostScene      from '../components/landing/CostScene';
 import PricingScene   from '../components/landing/PricingScene';
 import { useTheme }   from '../context/ThemeContext';
+import { submitContactSales } from '../services/contactSalesService';
 import '../styles/landing.css';
 
 // ── Smooth scroll helper ──────────────────────────────────────────────────────
@@ -301,14 +302,29 @@ const Pricing: React.FC<{ onContactSales: () => void }> = ({ onContactSales }) =
 const Contact: React.FC = () => {
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production this would POST to a contact endpoint
-    setSent(true);
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      await submitContactSales({
+        fullName: form.name,
+        email: form.email,
+        companyName: form.company,
+        message: form.message,
+      });
+      setSent(true);
+    } catch (err: unknown) {
+      setSubmitError(err instanceof Error ? err.message : 'Submission failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -371,8 +387,15 @@ const Contact: React.FC = () => {
                   value={form.message} onChange={handleChange}
                 />
               </div>
-              <button type="submit" className="land-btn-primary land-btn-full land-btn-lg">
-                Send Message
+              {submitError && (
+                <div className="land-modal-error">{submitError}</div>
+              )}
+              <button
+                type="submit"
+                className="land-btn-primary land-btn-full land-btn-lg"
+                disabled={submitting}
+              >
+                {submitting ? 'Sending…' : 'Send Message'}
               </button>
             </form>
           )}
@@ -446,6 +469,119 @@ const Footer: React.FC = () => (
   </footer>
 );
 
+// ── Cookie Consent ────────────────────────────────────────────────────────────
+const COOKIE_KEY = 'rentabot_cookie_consent';
+
+type ConsentState = 'accepted' | 'declined' | null;
+
+const CookieConsent: React.FC = () => {
+  const [state, setState] = useState<ConsentState>(() => {
+    const saved = localStorage.getItem(COOKIE_KEY);
+    return (saved === 'accepted' || saved === 'declined') ? saved : null;
+  });
+  const [showDetails, setShowDetails] = useState(false);
+  const [prefs, setPrefs] = useState({ analytics: true, marketing: false });
+
+  if (state !== null) return null;
+
+  const accept = () => { localStorage.setItem(COOKIE_KEY, 'accepted'); setState('accepted'); };
+  const decline = () => { localStorage.setItem(COOKIE_KEY, 'declined'); setState('declined'); };
+  const savePrefs = () => { localStorage.setItem(COOKIE_KEY, 'accepted'); setState('accepted'); };
+
+  return (
+    <div className="cookie-overlay" role="dialog" aria-modal="true" aria-label="Cookie consent">
+      <div className={`cookie-banner ${showDetails ? 'cookie-banner--expanded' : ''}`}>
+        <div className="cookie-banner-header">
+          <div className="cookie-icon" aria-hidden="true">🍪</div>
+          <div className="cookie-title-wrap">
+            <h3 className="cookie-title">We use cookies</h3>
+            <p className="cookie-desc">
+              We use cookies to improve your experience, analyse site traffic, and personalise content.
+              {!showDetails && (
+                <>
+                  {' '}
+                  <button className="cookie-link" onClick={() => setShowDetails(true)}>
+                    Manage preferences
+                  </button>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+
+        {showDetails && (
+          <div className="cookie-details">
+            <div className="cookie-category">
+              <div className="cookie-category-info">
+                <span className="cookie-category-name">Essential</span>
+                <span className="cookie-category-desc">Required for the site to function. Cannot be disabled.</span>
+              </div>
+              <div className="cookie-toggle cookie-toggle--locked" aria-label="Always on">
+                <span>Always on</span>
+              </div>
+            </div>
+
+            <div className="cookie-category">
+              <div className="cookie-category-info">
+                <span className="cookie-category-name">Analytics</span>
+                <span className="cookie-category-desc">Help us understand how visitors interact with the site.</span>
+              </div>
+              <label className="cookie-switch" aria-label="Toggle analytics cookies">
+                <input
+                  type="checkbox"
+                  checked={prefs.analytics}
+                  onChange={e => setPrefs(p => ({ ...p, analytics: e.target.checked }))}
+                />
+                <span className="cookie-switch-track" />
+              </label>
+            </div>
+
+            <div className="cookie-category">
+              <div className="cookie-category-info">
+                <span className="cookie-category-name">Marketing</span>
+                <span className="cookie-category-desc">Used to deliver relevant ads and track campaign performance.</span>
+              </div>
+              <label className="cookie-switch" aria-label="Toggle marketing cookies">
+                <input
+                  type="checkbox"
+                  checked={prefs.marketing}
+                  onChange={e => setPrefs(p => ({ ...p, marketing: e.target.checked }))}
+                />
+                <span className="cookie-switch-track" />
+              </label>
+            </div>
+          </div>
+        )}
+
+        <div className="cookie-actions">
+          {showDetails ? (
+            <>
+              <button className="cookie-btn cookie-btn--secondary" onClick={decline}>
+                Decline all
+              </button>
+              <button className="cookie-btn cookie-btn--primary" onClick={savePrefs}>
+                Save preferences
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="cookie-btn cookie-btn--ghost" onClick={() => setShowDetails(true)}>
+                Manage
+              </button>
+              <button className="cookie-btn cookie-btn--secondary" onClick={decline}>
+                Decline
+              </button>
+              <button className="cookie-btn cookie-btn--primary" onClick={accept}>
+                Accept all
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -468,6 +604,7 @@ const LandingPage: React.FC = () => {
       <Footer />
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+      <CookieConsent />
     </div>
   );
 };

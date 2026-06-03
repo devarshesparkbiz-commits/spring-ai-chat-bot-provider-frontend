@@ -2,26 +2,28 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
-import LandingPage from '../pages/LandingPage';
-import LoginPage from '../pages/LoginPage';
-import DashboardPage from '../pages/DashboardPage';
-import CompaniesPage from '../pages/CompaniesPage';
-import AdminUsersPage from '../pages/AdminUsersPage';
-import CompanyUsersPage from '../pages/CompanyUsersPage';
-import FaqPage from '../pages/FaqPage';
+import LandingPage        from '../pages/LandingPage';
+import LoginPage          from '../pages/LoginPage';
+import DashboardPage      from '../pages/DashboardPage';
+import CompaniesPage      from '../pages/CompaniesPage';
+import AdminUsersPage     from '../pages/AdminUsersPage';
+import CompanyUsersPage   from '../pages/CompanyUsersPage';
+import FaqPage            from '../pages/FaqPage';
 import ChatbotSettingsPage from '../pages/ChatbotSettingsPage';
-import ChatPage from '../pages/ChatPage';
-import ApiKeysPage from '../pages/ApiKeysPage';
+import ChatPage           from '../pages/ChatPage';
+import ApiKeysPage        from '../pages/ApiKeysPage';
+import ContactSalesPage   from '../pages/ContactSalesPage';
+import ProfilePage        from '../pages/ProfilePage';
 
 const AppRoutes: React.FC = () => (
   <Router>
     <AuthProvider>
       <Routes>
         {/* Public */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/"      element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected */}
+        {/* Protected — SUPER_ADMIN */}
         <Route path="/dashboard" element={
           <ProtectedRoute><DashboardPage /></ProtectedRoute>
         } />
@@ -34,6 +36,24 @@ const AppRoutes: React.FC = () => (
           <ProtectedRoute allowedRoles={['SUPER_ADMIN']}><FaqPage /></ProtectedRoute>
         } />
 
+        <Route path="/admin-users" element={
+          <ProtectedRoute allowedRoles={['SUPER_ADMIN']}><AdminUsersPage /></ProtectedRoute>
+        } />
+
+        <Route path="/company-users" element={
+          <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'COMPANY_ADMIN']}><CompanyUsersPage /></ProtectedRoute>
+        } />
+
+        <Route path="/contact-sales" element={
+          <ProtectedRoute allowedRoles={['SUPER_ADMIN']}><ContactSalesPage /></ProtectedRoute>
+        } />
+
+        {/* Profile — all authenticated roles */}
+        <Route path="/profile" element={
+          <ProtectedRoute><ProfilePage /></ProtectedRoute>
+        } />
+
+        {/* Protected — COMPANY_ADMIN */}
         <Route path="/faqs" element={
           <ProtectedRoute allowedRoles={['COMPANY_ADMIN']}><FaqPage /></ProtectedRoute>
         } />
@@ -46,16 +66,9 @@ const AppRoutes: React.FC = () => (
           <ProtectedRoute allowedRoles={['COMPANY_ADMIN']}><ApiKeysPage /></ProtectedRoute>
         } />
 
+        {/* Protected — COMPANY_USER + COMPANY_ADMIN */}
         <Route path="/chat" element={
           <ProtectedRoute allowedRoles={['COMPANY_USER', 'COMPANY_ADMIN']}><ChatPage /></ProtectedRoute>
-        } />
-
-        <Route path="/admin-users" element={
-          <ProtectedRoute allowedRoles={['SUPER_ADMIN']}><AdminUsersPage /></ProtectedRoute>
-        } />
-
-        <Route path="/company-users" element={
-          <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'COMPANY_ADMIN']}><CompanyUsersPage /></ProtectedRoute>
         } />
 
         <Route path="*" element={<Navigate to="/" replace />} />
